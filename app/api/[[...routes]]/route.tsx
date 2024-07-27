@@ -10,7 +10,7 @@ import moment from 'moment'
 
 
 const apiKey = process.env.NEYNAR_API_KEY as string;
-const HOSTNAME = process.env.HOSTNAME || 'http://localhost:3000'
+const HOSTNAME = process.env.HOSTNAME || "https://doiq-farcaster-frames.vercel.app"
 
 const app = new Frog({
   assetsPath: '/',
