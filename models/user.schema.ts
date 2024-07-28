@@ -39,6 +39,6 @@ userSchema.set('toObject', { virtuals: true });
 userSchema.set('toJSON', { virtuals: true });
 
 // Create and export the model
-const User = models.User || model<UserDocument>('User', userSchema);
+const User = model<UserDocument>('User', userSchema);
 
 export default User;

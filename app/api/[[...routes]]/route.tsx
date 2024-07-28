@@ -7,6 +7,7 @@ import { handle } from 'frog/next'
 import { serveStatic } from 'frog/serve-static'
 import { neynar } from 'frog/middlewares'
 import moment from 'moment'
+import { UserService } from '@/lib/services/user.service'
 
 
 const apiKey = process.env.NEYNAR_API_KEY as string;
@@ -94,8 +95,7 @@ app.frame('/doiq', async (c) => {
   let lastUpdated = null
   const tenMinutesAgo = moment().subtract(10, 'minutes')
   try {
-    const response = await fetch(`${HOSTNAME}/api/users?fid=${c.var.interactor?.fid}`)
-    user = await response.json()
+    user = (await UserService.FetchUserByFid(c.var.interactor?.fid?.toString() as string)).data
     lastUpdated = moment(user.updatedAt)
     isUpdatedMoreThan10Mins = lastUpdated.isBefore(tenMinutesAgo)
   } catch (error) {
@@ -207,38 +207,25 @@ app.frame('/result', async (c) => {
   const { buttonValue, status } = c
   let user
   try {
-    const response = await fetch(`${HOSTNAME}/api/users?fid=${c.var.interactor?.fid}`)
-    user = await response.json()
-
+    user = (await UserService.FetchUserByFid(c.var.interactor?.fid?.toString() as string)).data
   } catch (error) {
-
+    console.log(error)
   }
 
   if (!user) {
     const userData = {
       username: c.var.interactor?.username,
       displayName: c.var.interactor?.displayName,
-      fid: c.var.interactor?.fid,
+      fid: c.var.interactor?.fid.toString() as string,
       doiqValue: c.buttonValue,
-      doiqCount: 1
     }
-    const res = await fetch(`${HOSTNAME}/api/users`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userData)
-    })
-    user = await res.json()
+
+    user = (await UserService.CreateUser(userData)).data
   } else {
     const userData = {
-      doiqCount: user.doiqCount + 1,
       doiqValue: buttonValue
     }
-    const res = await fetch(`${process.env.HOSTNAME}/api/users`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userData)
-    })
-    user = await res.json()
+    user = (await UserService.UpdateUser(c.var.interactor?.fid?.toString() as string, userData)).data
   }
 
 
