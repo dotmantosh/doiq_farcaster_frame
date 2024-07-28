@@ -1,4 +1,4 @@
-import { Schema, model, Document, Types } from 'mongoose';
+import { Schema, model, models, Document, Types } from 'mongoose';
 import { DoiqDocument } from './doiq.schema';
 
 export interface UserDocument extends Document {
@@ -39,6 +39,6 @@ userSchema.set('toObject', { virtuals: true });
 userSchema.set('toJSON', { virtuals: true });
 
 // Create and export the model
-const User = model<UserDocument>('User', userSchema);
+const User = models.User || model<UserDocument>('User', userSchema);
 
 export default User;

@@ -1,4 +1,4 @@
-import { Schema, model, Document, Types } from 'mongoose';
+import { Schema, model, models, Document, Types } from 'mongoose';
 
 export enum EDoiq {
   doiq = 'doiq',
@@ -25,6 +25,6 @@ const doiqSchema = new Schema<DoiqDocument>({
 });
 
 // Create and export the model
-const Doiq = model<DoiqDocument>('Doiq', doiqSchema);
+const Doiq = models.Doiq || model<DoiqDocument>('Doiq', doiqSchema);
 
 export default Doiq;

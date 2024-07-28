@@ -89,11 +89,21 @@ app.frame('/doiq', async (c) => {
   const { buttonValue, status } = c
   const fruit = buttonValue
 
-  const response = await fetch(`${HOSTNAME}/api/users?fid=${c.var.interactor?.fid}`)
-  const user = await response.json()
-  const lastUpdated = moment(user.updatedAt)
+  let user = null
+  let isUpdatedMoreThan10Mins = false
+  let lastUpdated = null
   const tenMinutesAgo = moment().subtract(10, 'minutes')
-  const isUpdatedMoreThan10Mins = lastUpdated.isBefore(tenMinutesAgo)
+  try {
+    const response = await fetch(`${HOSTNAME}/api/users?fid=${c.var.interactor?.fid}`)
+    user = await response.json()
+    lastUpdated = moment(user.updatedAt)
+    isUpdatedMoreThan10Mins = lastUpdated.isBefore(tenMinutesAgo)
+  } catch (error) {
+    console.log(error)
+  }
+
+
+
   if (!user || isUpdatedMoreThan10Mins) {
     return c.res({
       action: `/result`,
@@ -195,9 +205,14 @@ app.frame('/doiq', async (c) => {
 
 app.frame('/result', async (c) => {
   const { buttonValue, status } = c
+  let user
+  try {
+    const response = await fetch(`${HOSTNAME}/api/users?fid=${c.var.interactor?.fid}`)
+    user = await response.json()
 
-  const response = await fetch(`${HOSTNAME}/api/users?fid=${c.var.interactor?.fid}`)
-  let user = await response.json()
+  } catch (error) {
+
+  }
 
   if (!user) {
     const userData = {

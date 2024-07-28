@@ -8,12 +8,13 @@ async function dbConnect() {
     return;
   }
 
-  if (!process.env.MONGODB_URI_DEV) {
+  if (!process.env.MONGODB_URI) {
+    console.log('no database uri')
     throw new Error('MONGODB_URI_DEV environment variable is not defined.');
   }
 
   try {
-    const db = await mongoose.connect(process.env.MONGODB_URI_DEV as string);
+    const db = await mongoose.connect(process.env.MONGODB_URI as string);
 
     connection.isConnected = db.connections[0].readyState;
 
