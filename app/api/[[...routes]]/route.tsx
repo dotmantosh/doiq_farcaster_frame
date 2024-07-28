@@ -11,8 +11,9 @@ import { UserService } from '@/lib/services/user.service'
 
 
 const apiKey = process.env.NEYNAR_API_KEY as string;
-const HOSTNAME = process.env.HOSTNAME || "https://doiq-farcaster-frames.vercel.app"
-// const HOSTNAME = "http://localhost:3000/api"
+// const HOSTNAME = "https://doiq-farcaster-frames.vercel.app"
+const HOSTNAME = "http://localhost:3000"
+console.log(HOSTNAME)
 
 const fakeData = {
   fid: "12388",
@@ -361,7 +362,7 @@ app.frame('/result', async (c) => {
       ),
       intents: [
         <Button.Reset>Home</Button.Reset>,
-        <Button.Link href={`${HOSTNAME}/leadearboard`}>Leaderboard</Button.Link>,
+        <Button.Link href={`${HOSTNAME}/leaderboard`}>Leaderboard</Button.Link>,
       ],
     })
 
@@ -433,7 +434,7 @@ app.frame('/result', async (c) => {
         ),
         intents: [
           <Button.Reset>Home</Button.Reset>,
-          <Button.Link href={`${HOSTNAME}/leadearboard`}>Leaderboard</Button.Link>,
+          <Button.Link href={`${HOSTNAME}/leaderboard`}>Leaderboard</Button.Link>,
         ],
       })
 
