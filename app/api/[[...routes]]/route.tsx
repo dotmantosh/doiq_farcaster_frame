@@ -14,18 +14,25 @@ const apiKey = process.env.NEYNAR_API_KEY as string;
 const HOSTNAME = process.env.HOSTNAME || "https://doiq-farcaster-frames.vercel.app"
 // const HOSTNAME = "http://localhost:3000/api"
 
+const fakeData = {
+  fid: "12388",
+  username: "dotmantosh",
+  displayName: "dotmantosh",
+
+}
+
 const app = new Frog({
   assetsPath: '/',
   basePath: '/api',
-  hub: neynarHub({ apiKey })
+  // hub: neynarHub({ apiKey })
   // hub: neynar({ apiKey })
 } as FrogConstructorParameters)
-  .use(neynar(
-    {
-      apiKey,
-      features: ['interactor', 'cast'],
-    }
-  ))
+// .use(neynar(
+//   {
+//     apiKey,
+//     features: ['interactor', 'cast'],
+//   }
+// ))
 
 // Uncomment to use Edge Runtime
 // export const runtime = 'edge'
@@ -98,7 +105,7 @@ app.frame('/doiq', async (c) => {
 
   try {
 
-    const response = await UserService.FetchUserByFid(c.var.interactor?.fid?.toString() as string);
+    const response = await UserService.FetchUserByFid(fakeData.fid);
     user = response.data;
     lastUpdated = moment(user.updatedAt);
     isUpdatedMoreThan10Mins = lastUpdated.isBefore(tenMinutesAgo);
@@ -177,7 +184,7 @@ app.frame('/doiq', async (c) => {
                 whiteSpace: 'pre-wrap',
               }}
             >
-              {`Hi ${c.var.interactor?.username}, You've doiqed too hard.`}
+              {`Hi ${fakeData.username}, You've doiqed too hard.`}
             </div>
             <div
               style={{
@@ -289,7 +296,7 @@ app.frame('/result', async (c) => {
   const { buttonValue, status } = c
 
   try {
-    let user = (await UserService.FetchUserByFid(c.var.interactor?.fid?.toString() as string)).data
+    let user = (await UserService.FetchUserByFid(fakeData.fid)).data
     // console.log('user found: ', user)
     const userData = {
       doiqValue: buttonValue
@@ -334,7 +341,7 @@ app.frame('/result', async (c) => {
               whiteSpace: 'pre-wrap',
             }}
           >
-            {`Good choice ${c.var.interactor?.username}, Your answer has been received by the great doiq himself.`}
+            {`Good choice ${fakeData.username}, Your answer has been received by the great doiq himself.`}
           </div>
           <div
             style={{
@@ -362,9 +369,9 @@ app.frame('/result', async (c) => {
     // console.log('error : ', error)
     if (error.response && error.response.status === 404) {
       const userData = {
-        username: c.var.interactor?.username,
-        displayName: c.var.interactor?.displayName,
-        fid: c.var.interactor?.fid?.toString() as string,
+        username: fakeData.username,//c.var.interactor?.username
+        displayName: fakeData.displayName,//c.var.interactor?.displayName
+        fid: fakeData.fid, // c.var.interactor?.fid?.toString()
         doiqValue: c.buttonValue,
       }
       const user = (await UserService.CreateUser(userData)).data
@@ -406,7 +413,7 @@ app.frame('/result', async (c) => {
                 whiteSpace: 'pre-wrap',
               }}
             >
-              {`Good choice ${c.var.interactor?.username}, Your answer has been received by the great doiq himself.`}
+              {`Good choice ${fakeData.username}, Your answer has been received by the great doiq himself.`}
             </div>
             <div
               style={{
