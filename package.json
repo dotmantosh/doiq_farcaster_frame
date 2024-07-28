@@ -7,6 +7,7 @@
     "deploy": "vercel",
     "build": "next build",
     "start": "next start",
+    "frog:dev": "frog dev",
     "lint": "next lint"
   },
   "dependencies": {
