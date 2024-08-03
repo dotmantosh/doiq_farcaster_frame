@@ -17,7 +17,7 @@ function Leaderboard() {
       setLeaderboard(resData)
       // setAllDoiqCount(resData.allDoiqCounts
       // )
-
+      console.log(leaderboard)
     } catch (error) {
       console.log(error)
     } finally {
@@ -29,7 +29,7 @@ function Leaderboard() {
   }, [])
   return (
     <div className={styles.leaderboard}>
-      <h1 className="my-2">doiq {console.log(leaderboard)}</h1>
+      <h1 className="my-2">doiq </h1>
       <p className="mb-2">The doiqers have doiqed {allDoiqCount} times in total</p>
       <p className="mb-2">doiq on warpcast</p>
 
