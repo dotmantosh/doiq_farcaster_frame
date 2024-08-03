@@ -31,12 +31,12 @@ const fakeData = {
 const app = new Frog({
   assetsPath: '/',
   basePath: '/api',
-  hub: neynarHub({ apiKey })
+  hub: neynarHub({ apiKey: "NEYNAR_FROG_FM" })
   // hub: neynar({ apiKey })
 } as FrogConstructorParameters)
   .use(neynar(
     {
-      apiKey,
+      apiKey: "NEYNAR_FROG_FM",
       features: ['interactor', 'cast'],
     }
   ))
