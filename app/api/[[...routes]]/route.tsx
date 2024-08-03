@@ -111,7 +111,7 @@ app.frame('/doiq', async (c) => {
   const tenMinutesAgo = moment().subtract(10, 'minutes');
 
   try {
-    const response = await UserService.fetchUserByFidFromFrontend(c.interactor?.fid.toString() as string);
+    const response = await UserService.fetchUserByFidFromFrontend(c.var.interactor?.fid.toString() as string);
     user = response.user;
     console.log('usr from /doiq fetchUserbyFid', user)
     if (user) {
@@ -193,7 +193,7 @@ app.frame('/doiq', async (c) => {
                   whiteSpace: 'pre-wrap',
                 }}
               >
-                {`Hi ${c.interactor?.username as string}, You've doiqed too hard.`}
+                {`Hi ${c.var.interactor?.username as string}, You've doiqed too hard.`}
               </div>
               <div
                 style={{
@@ -313,7 +313,7 @@ app.frame('/result', async (c) => {
     doiqAnswer
   }
   try {
-    let response = await UserService.fetchUserByFidFromFrontend(c.interactor?.fid.toString() as string)
+    let response = await UserService.fetchUserByFidFromFrontend(c.var.interactor?.fid.toString() as string)
     let user = response.user
     console.log('user found: /result ', user)
     if (user) {
