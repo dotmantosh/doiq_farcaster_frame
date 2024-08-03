@@ -319,15 +319,8 @@ app.frame('/result', async (c) => {
     if (user) {
 
       const response = await UserService.UpdateUserFromFrontend(user.fid, userData)
-      user = response.user!
-      console.log('user updated on the frontend')
-      const lastUpdated = moment(user.updatedAt)
-      const tenMinutesAgo = moment().subtract(10, 'minutes')
-      let nextDoiqTime = "NOW"
-      if (lastUpdated.isAfter(tenMinutesAgo)) {
-        const minutesLeft = (10 - moment().diff(lastUpdated, 'minutes')).toString()
-        nextDoiqTime = `${minutesLeft} minutes`
-      }
+      let nextDoiqTime = "10 Minutes"
+
       return c.res({
         image: (
           <div
@@ -405,15 +398,10 @@ app.frame('/result', async (c) => {
         doiqAnswer
       }
       const response = await UserService.CreateUserFromFrontend(userData)
-      const user = response.user
-      const lastUpdated = moment(user.updatedAt)
-      const tenMinutesAgo = moment().subtract(10, 'minutes')
-      let nextDoiqTime = "NOW"
 
-      if (lastUpdated.isAfter(tenMinutesAgo)) {
-        const minutesLeft = (10 - moment().diff(lastUpdated, 'minutes')).toString()
-        nextDoiqTime = `${minutesLeft} minutes`
-      }
+      let nextDoiqTime = "10 Minutes"
+
+
       // console.log("lastUpdated: ", lastUpdated)
       // console.log("next doiq time: ", nextDoiqTime)
       return c.res({

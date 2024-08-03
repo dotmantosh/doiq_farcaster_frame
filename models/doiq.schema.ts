@@ -27,4 +27,4 @@ const doiqSchema = new Schema<DoiqDocument>({
 });
 
 // Create and export the model
-export const Doiq = models.Doiq || model<DoiqDocument>('Doiq', doiqSchema);
+export const Doiq = models?.Doiq || model<DoiqDocument>('Doiq', doiqSchema);

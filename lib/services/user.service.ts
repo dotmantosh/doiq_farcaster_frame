@@ -87,34 +87,35 @@ export class UserService {
 
   static async findAll() {
     try {
-      const users = await User.aggregate([
-        {
-          $lookup: {
-            from: 'doiqs',
-            localField: '_id',
-            foreignField: 'userId',
-            as: 'doiqs'
-          }
-        },
-        {
-          $addFields: {
-            doiqCount: { $size: "$doiqs" },
-            doiqCorrectAnswerCount: {
-              $size: {
-                $filter: {
-                  input: "$doiqs",
-                  as: "doiq",
-                  cond: { $eq: ["$$doiq.doiqValue", "$$doiq.doiqAnswer"] }
-                }
-              }
-            }
-          }
-        },
-        {
-          $sort: { doiqCorrectAnswerCount: -1 }
-        }
-      ]).exec(); // Ensure the aggregation executes
-      return users;
+      // const users = await User.aggregate([
+      //   {
+      //     $lookup: {
+      //       from: 'doiqs',
+      //       localField: '_id',
+      //       foreignField: 'userId',
+      //       as: 'doiqs'
+      //     }
+      //   },
+      //   {
+      //     $addFields: {
+      //       doiqCount: { $size: "$doiqs" },
+      //       doiqCorrectAnswerCount: {
+      //         $size: {
+      //           $filter: {
+      //             input: "$doiqs",
+      //             as: "doiq",
+      //             cond: { $eq: ["$$doiq.doiqValue", "$$doiq.doiqAnswer"] }
+      //           }
+      //         }
+      //       }
+      //     }
+      //   },
+      //   {
+      //     $sort: { doiqCorrectAnswerCount: -1 }
+      //   }
+      // ]).exec(); // Ensure the aggregation executes
+      // return users;
+
     } catch (error: any) {
       console.log('Full Error :', error)
       console.log('Error Message :', error.message)

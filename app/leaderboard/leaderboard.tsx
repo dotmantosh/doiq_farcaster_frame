@@ -2,8 +2,9 @@
 import React, { useEffect, useState } from 'react'
 import styles from "../../style/leaderboard.module.scss"
 import { IUser } from "../../interfaces/IUser"
-import { UserService } from '@/lib/services/user.service'
+// import { UserService } from '@/lib/services/user.service'
 import { Spinner } from "reactstrap"
+import { ApiClient } from '@/lib/services/apiClient'
 
 function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState<IUser[]>([])
@@ -13,11 +14,11 @@ function Leaderboard() {
     console.log('I got here')
     try {
       setIsFetchingLeaderboard(true)
-      const resData = await UserService.findAll()
-      setLeaderboard(resData)
-      // setAllDoiqCount(resData.allDoiqCounts
-      // )
-      console.log(leaderboard)
+      const resData = (await ApiClient.FetchUsers()).data
+      setLeaderboard(resData.leaderboard)
+      setAllDoiqCount(resData.allDoiqCounts)
+      // console.log(leaderboard)
+      // console.log(resData)
     } catch (error) {
       console.log(error)
     } finally {
@@ -47,26 +48,26 @@ function Leaderboard() {
         </thead>
         {
           isFetchingLeaderboard ?
-            <div className="d-flex justify-content-center">
-              <Spinner size="32">Loading...</Spinner>
+            <div style={{ width: "100%" }} className="d-flex justify-content-center">
+              <Spinner>Loading...</Spinner>
             </div>
 
             :
             <tbody>
               {
-                // leaderboard.length > 0 && leaderboard.map((user, index) => {
-                //   const doiqCorrectAnswerCount = user.doiqCorrectAnswerCount ?? 0;
-                //   const incorrectAnswerCount = (user.doiqCount ?? 0) - doiqCorrectAnswerCount;
+                leaderboard.map((user, index) => {
+                  const doiqCorrectAnswerCount = user.doiqCorrectAnswerCount ?? 0;
+                  const incorrectAnswerCount = (user.doiqCount ?? 0) - doiqCorrectAnswerCount;
 
-                //   return (
-                //     <tr key={index}>
-                //       <td>{index + 1}</td>
-                //       <td>{user.username}</td>
-                //       <td>{doiqCorrectAnswerCount}</td>
-                //       <td>{incorrectAnswerCount}</td>
-                //     </tr>
-                //   );
-                // })
+                  return (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{user.username}</td>
+                      <td>{doiqCorrectAnswerCount}</td>
+                      <td>{incorrectAnswerCount}</td>
+                    </tr>
+                  );
+                })
               }
             </tbody>
 
