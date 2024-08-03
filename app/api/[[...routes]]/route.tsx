@@ -319,15 +319,15 @@ app.frame('/result', async (c) => {
     if (user) {
 
       const response = await UserService.UpdateUserFromFrontend(user.fid, userData)
-      user = response.user!
+      const updatedUser = response.user!
       console.log('user updated on the frontend')
-      const lastUpdated = moment(user.updatedAt)
+      const lastUpdated = moment(updatedUser.updatedAt)
       const tenMinutesAgo = moment().subtract(10, 'minutes')
-      let nextDoiqTime = "NOW"
-      if (lastUpdated.isAfter(tenMinutesAgo)) {
-        const minutesLeft = (10 - moment().diff(lastUpdated, 'minutes')).toString()
-        nextDoiqTime = `${minutesLeft} minutes`
-      }
+
+
+      const minutesLeft = (10 - moment().diff(lastUpdated, 'minutes')).toString()
+
+
       return c.res({
         image: (
           <div
@@ -386,7 +386,7 @@ app.frame('/result', async (c) => {
                 whiteSpace: 'pre-wrap',
               }}
             >
-              {`You can doiq again in about ${nextDoiqTime} minutes`}
+              {`You can doiq again in about ${minutesLeft} minutes`}
             </div>
           </div>
         ),
@@ -410,10 +410,10 @@ app.frame('/result', async (c) => {
       const tenMinutesAgo = moment().subtract(10, 'minutes')
       let nextDoiqTime = "NOW"
 
-      if (lastUpdated.isAfter(tenMinutesAgo)) {
-        const minutesLeft = (10 - moment().diff(lastUpdated, 'minutes')).toString()
-        nextDoiqTime = `${minutesLeft} minutes`
-      }
+
+      const minutesLeft = (10 - moment().diff(lastUpdated, 'minutes')).toString()
+
+
       // console.log("lastUpdated: ", lastUpdated)
       // console.log("next doiq time: ", nextDoiqTime)
       return c.res({
@@ -479,7 +479,7 @@ app.frame('/result', async (c) => {
                 whiteSpace: 'pre-wrap',
               }}
             >
-              {`You can doiq again in about ${nextDoiqTime}`}
+              {`You can doiq again in about ${minutesLeft} minutes`}
             </div>
           </div>
         ),
