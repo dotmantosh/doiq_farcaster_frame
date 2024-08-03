@@ -1,6 +1,6 @@
 import dbConnect from '../../../lib/dbConnection';
-import User from '../../../models/user.schema';
-import Doiq from '../../../models/doiq.schema';
+import { User } from '../../../models/user.schema';
+import { Doiq } from '../../../models/doiq.schema';
 import { NextRequest, NextResponse } from 'next/server';
 
 // Helper function to handle errors
@@ -43,15 +43,14 @@ export async function PUT(req: NextRequest) {
   try {
     await dbConnect();
     const body = await req.json();
-    const { _id, doiqValue, ...updateData } = body;
-    const user = await User.findOne({ _id });
+    const { fid, doiqValue, doiqAnswer } = body;
+    const user = await User.findOne({ fid });
 
     if (!user) {
       return NextResponse.json({ message: 'User not found', status: false, user: null }, { status: 404 });
     }
 
-    const doiq = await Doiq.create({ doiqValue, userId: user._id, userFid: user.fid });
-    user.doiqCount = updateData.doiqCount;
+    const doiq = await Doiq.create({ doiqValue, doiqAnswer, userId: user._id, userFid: user.fid });
     user.doiqs.push(doiq._id);
     await user.save();
     return NextResponse.json({ status: true, user });

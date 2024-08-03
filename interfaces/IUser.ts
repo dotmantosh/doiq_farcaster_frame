@@ -5,7 +5,9 @@ export interface IUser {
   displayName?: string;
   doiqs?: string[];
   doiqValue?: string;
-  doiqsCount?: string;
+  doiqAnswer?: string;
+  doiqCount?: number;
+  doiqCorrectAnswerCount?: number;
   createdAt?: string;
   updatedAt?: string;
 }

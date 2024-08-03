@@ -5,11 +5,10 @@ export interface UserDocument extends Document {
   _id: string;
   fid: string;
   username: string;
-  doiqCount: number;
   displayName: string;
-  ethAddress: string;
-  solAddress: string;
-  doiqs: [Types.ObjectId];
+  doiqs: Types.ObjectId[];
+  doiqValue?: string;
+  doiqAnswer?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -18,11 +17,8 @@ export interface UserDocument extends Document {
 const userSchema = new Schema<UserDocument>({
   fid: { type: String, required: true, unique: true },
   username: { type: String, required: true, unique: true },
-  doiqCount: { type: Number, required: true, default: 0 },
   displayName: { type: String },
   doiqs: [{ type: Schema.Types.ObjectId, ref: 'Doiq' }],
-  ethAddress: { type: String, unique: true },
-  solAddress: { type: String, unique: true },
 }, {
   timestamps: true, // Automatically create createdAt and updatedAt fields
 });
@@ -39,6 +35,5 @@ userSchema.set('toObject', { virtuals: true });
 userSchema.set('toJSON', { virtuals: true });
 
 // Create and export the model
-const User = model<UserDocument>('User', userSchema);
+export const User = models.User || model<UserDocument>('User', userSchema);
 
-export default User;

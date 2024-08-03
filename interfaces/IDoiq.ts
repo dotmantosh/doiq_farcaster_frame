@@ -8,6 +8,7 @@ export interface IDoiq {
   userId: string;
   userFid: string;
   doiqValue: EDoiq;
+  doiqAnswer: EDoiq;
   createdAt: string;
   updatedAt: string;
 }

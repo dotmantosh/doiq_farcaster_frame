@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import styles from "../../style/leaderboard.module.scss"
 import { IUser } from "../../interfaces/IUser"
 import { UserService } from '@/lib/services/user.service'
+import { Spinner } from "reactstrap"
 
 function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState<IUser[]>([])
@@ -28,36 +29,48 @@ function Leaderboard() {
   }, [])
   return (
     <div className={styles.leaderboard}>
-      <h1 className="my-2">DOIQ</h1>
+      <h1 className="my-2">doiq</h1>
       <p className="mb-2">The doiqers have doiqed {allDoiqCount} times in total</p>
-      <p className="mb-2">Doiq on warpcast</p>
+      <p className="mb-2">doiq on warpcast</p>
 
       <h2 className="mb-2">Leaderboard Updates in real time</h2>
 
-      doiq on <a>warpcast</a>
 
       <table>
         <thead>
           <tr>
-            <th>S/N</th>
-            <th>USERNAME</th>
-            <th>TIME</th>
-            <th>DOIQS</th>
+            <th>Rank</th>
+            <th>Username</th>
+            <th>Successful doiqs</th>
+            <th>Unsuccessful doiqs</th>
           </tr>
         </thead>
-        <tbody>
-          {
-            leaderboard.map((user, index) => (
+        {
+          isFetchingLeaderboard ?
+            <div>
+              <Spinner>Loading...</Spinner>
+            </div>
 
-              <tr key={index}>
-                <td>{index}</td>
-                <td>{user.username}</td>
-                <td>{user.updatedAt}</td>
-                <td>{user.doiqsCount}</td>
-              </tr>
-            ))
-          }
-        </tbody>
+            :
+            <tbody>
+              {
+                leaderboard.map((user, index) => {
+                  const doiqCorrectAnswerCount = user.doiqCorrectAnswerCount ?? 0;
+                  const incorrectAnswerCount = (user.doiqCount ?? 0) - doiqCorrectAnswerCount;
+
+                  return (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{user.username}</td>
+                      <td>{doiqCorrectAnswerCount}</td>
+                      <td>{incorrectAnswerCount}</td>
+                    </tr>
+                  );
+                })
+              }
+            </tbody>
+
+        }
       </table>
 
     </div>
