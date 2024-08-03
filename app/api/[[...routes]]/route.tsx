@@ -13,7 +13,7 @@ import { UserDocument } from '@/models/user.schema'
 
 
 const apiKey = process.env.NEYNAR_API_KEY as string;
-const HOSTNAME = "https://doiq-farcaster-frame.vercel.app"
+const HOSTNAME = "https://doiq-farcaster-frame.vercel.app/"
 // const HOSTNAME = "http://localhost:3000"
 // console.log(HOSTNAME)
 
@@ -319,15 +319,15 @@ app.frame('/result', async (c) => {
     if (user) {
 
       const response = await UserService.UpdateUserFromFrontend(user.fid, userData)
-      const updatedUser = response.user!
+      user = response.user!
       console.log('user updated on the frontend')
-      const lastUpdated = moment(updatedUser.updatedAt)
+      const lastUpdated = moment(user.updatedAt)
       const tenMinutesAgo = moment().subtract(10, 'minutes')
-
-
-      const minutesLeft = (10 - moment().diff(lastUpdated, 'minutes')).toString()
-
-
+      let nextDoiqTime = "NOW"
+      if (lastUpdated.isAfter(tenMinutesAgo)) {
+        const minutesLeft = (10 - moment().diff(lastUpdated, 'minutes')).toString()
+        nextDoiqTime = `${minutesLeft} minutes`
+      }
       return c.res({
         image: (
           <div
@@ -386,7 +386,7 @@ app.frame('/result', async (c) => {
                 whiteSpace: 'pre-wrap',
               }}
             >
-              {`You can doiq again in about ${minutesLeft} minutes`}
+              {`You can doiq again in about ${nextDoiqTime} minutes`}
             </div>
           </div>
         ),
@@ -410,10 +410,10 @@ app.frame('/result', async (c) => {
       const tenMinutesAgo = moment().subtract(10, 'minutes')
       let nextDoiqTime = "NOW"
 
-
-      const minutesLeft = (10 - moment().diff(lastUpdated, 'minutes')).toString()
-
-
+      if (lastUpdated.isAfter(tenMinutesAgo)) {
+        const minutesLeft = (10 - moment().diff(lastUpdated, 'minutes')).toString()
+        nextDoiqTime = `${minutesLeft} minutes`
+      }
       // console.log("lastUpdated: ", lastUpdated)
       // console.log("next doiq time: ", nextDoiqTime)
       return c.res({
@@ -479,7 +479,7 @@ app.frame('/result', async (c) => {
                 whiteSpace: 'pre-wrap',
               }}
             >
-              {`You can doiq again in about ${minutesLeft} minutes`}
+              {`You can doiq again in about ${nextDoiqTime}`}
             </div>
           </div>
         ),

@@ -40,13 +40,20 @@ export class UserService {
     try {
       await dbConnect()
       const user = await User.findOne({ fid })
-      console.log("user Found in userservice/updateUser")
+      console.log("user Found in user service/updateUser")
       if (user) {
         const doiq = await Doiq.create({ userId: user._id, userFid: user.fid, doiqValue: data.doiqValue, doiqAnswer: data.doiqAnswer })
         user.doiqs.push(doiq._id)
         user.save()
         // console.log(user)
         // console.log(doiq)
+        const updatedUser = await User.findById(user._id);
+        if (!updatedUser) {
+          throw new Error("Updated user not found");
+        }
+
+        return updatedUser;
+
         console.log('user updated from user service')
         return { status: true, user }
       }

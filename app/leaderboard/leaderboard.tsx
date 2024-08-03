@@ -47,8 +47,8 @@ function Leaderboard() {
         </thead>
         {
           isFetchingLeaderboard ?
-            <div>
-              <Spinner>Loading...</Spinner>
+            <div className="d-flex justify-content-center">
+              <Spinner size="32">Loading...</Spinner>
             </div>
 
             :
