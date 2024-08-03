@@ -14,11 +14,10 @@ function Leaderboard() {
     try {
       setIsFetchingLeaderboard(true)
       const resData = await UserService.findAll()
-      setLeaderboard(resData.leaderboard)
-      setAllDoiqCount(resData.allDoiqCounts
-      )
-      console.log(resData)
-      console.log(resData.leaderboard)
+      setLeaderboard(resData)
+      // setAllDoiqCount(resData.allDoiqCounts
+      // )
+
     } catch (error) {
       console.log(error)
     } finally {
@@ -30,7 +29,7 @@ function Leaderboard() {
   }, [])
   return (
     <div className={styles.leaderboard}>
-      <h1 className="my-2">doiq</h1>
+      <h1 className="my-2">doiq {console.log(leaderboard)}</h1>
       <p className="mb-2">The doiqers have doiqed {allDoiqCount} times in total</p>
       <p className="mb-2">doiq on warpcast</p>
 
@@ -55,19 +54,19 @@ function Leaderboard() {
             :
             <tbody>
               {
-                leaderboard.length > 0 && leaderboard.map((user, index) => {
-                  const doiqCorrectAnswerCount = user.doiqCorrectAnswerCount ?? 0;
-                  const incorrectAnswerCount = (user.doiqCount ?? 0) - doiqCorrectAnswerCount;
+                // leaderboard.length > 0 && leaderboard.map((user, index) => {
+                //   const doiqCorrectAnswerCount = user.doiqCorrectAnswerCount ?? 0;
+                //   const incorrectAnswerCount = (user.doiqCount ?? 0) - doiqCorrectAnswerCount;
 
-                  return (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{user.username}</td>
-                      <td>{doiqCorrectAnswerCount}</td>
-                      <td>{incorrectAnswerCount}</td>
-                    </tr>
-                  );
-                })
+                //   return (
+                //     <tr key={index}>
+                //       <td>{index + 1}</td>
+                //       <td>{user.username}</td>
+                //       <td>{doiqCorrectAnswerCount}</td>
+                //       <td>{incorrectAnswerCount}</td>
+                //     </tr>
+                //   );
+                // })
               }
             </tbody>
 
