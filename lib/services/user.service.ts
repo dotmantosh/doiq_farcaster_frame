@@ -52,10 +52,8 @@ export class UserService {
           throw new Error("Updated user not found");
         }
 
-        return updatedUser;
 
-        console.log('user updated from user service')
-        return { status: true, user }
+        return { status: true, user: updatedUser }
       }
       else {
         console.log("No user with the given fid " + data.fid)
