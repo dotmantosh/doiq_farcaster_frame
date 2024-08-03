@@ -54,7 +54,7 @@ function Leaderboard() {
             :
             <tbody>
               {
-                leaderboard.map((user, index) => {
+                leaderboard.length > 0 && leaderboard.map((user, index) => {
                   const doiqCorrectAnswerCount = user.doiqCorrectAnswerCount ?? 0;
                   const incorrectAnswerCount = (user.doiqCount ?? 0) - doiqCorrectAnswerCount;
 

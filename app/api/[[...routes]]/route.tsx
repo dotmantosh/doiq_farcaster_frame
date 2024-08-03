@@ -13,7 +13,7 @@ import { UserDocument } from '@/models/user.schema'
 
 
 const apiKey = process.env.NEYNAR_API_KEY as string;
-const HOSTNAME = "https://doiq-farcaster-frames.vercel.app"
+const HOSTNAME = "https://doiq-farcaster-frame.vercel.app"
 // const HOSTNAME = "http://localhost:3000"
 // console.log(HOSTNAME)
 
