@@ -76,6 +76,8 @@ function Leaderboard() {
     // </div>
     <>
       Leaderboard
+      {leaderboard && leaderboard.toString()}
+
     </>
   )
 }
