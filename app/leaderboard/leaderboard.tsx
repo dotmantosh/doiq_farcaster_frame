@@ -49,7 +49,9 @@ function Leaderboard() {
         {
           isFetchingLeaderboard ?
             <div style={{ width: "100%" }} className="d-flex justify-content-center">
-              <Spinner>Loading...</Spinner>
+              <Spinner style={{ width: "32px", height: "32px" }}>
+                Loading...
+              </Spinner>
             </div>
 
             :
