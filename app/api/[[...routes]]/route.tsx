@@ -13,8 +13,8 @@ import { UserDocument } from '@/models/user.schema'
 
 
 const apiKey = process.env.NEYNAR_API_KEY as string;
-// const HOSTNAME = "https://doiq-farcaster-frames.vercel.app"
-const HOSTNAME = "http://localhost:3000"
+const HOSTNAME = "https://doiq-farcaster-frames.vercel.app"
+// const HOSTNAME = "http://localhost:3000"
 // console.log(HOSTNAME)
 
 const answers = ["doiq", "doiq?", "doiq!"]
@@ -31,15 +31,15 @@ const fakeData = {
 const app = new Frog({
   assetsPath: '/',
   basePath: '/api',
-  // hub: neynarHub({ apiKey })
+  hub: neynarHub({ apiKey })
   // hub: neynar({ apiKey })
 } as FrogConstructorParameters)
-// .use(neynar(
-//   {
-//     apiKey,user
-//     features: ['interactor', 'cast'],
-//   }
-// ))
+  .use(neynar(
+    {
+      apiKey,
+      features: ['interactor', 'cast'],
+    }
+  ))
 
 // Uncomment to use Edge Runtime
 // export const runtime = 'edge'
@@ -111,7 +111,7 @@ app.frame('/doiq', async (c) => {
   const tenMinutesAgo = moment().subtract(10, 'minutes');
 
   try {
-    const response = await UserService.fetchUserByFidFromFrontend(fakeData.fid);
+    const response = await UserService.fetchUserByFidFromFrontend(c.interactor?.fid.toString() as string);
     user = response.user;
     console.log('usr from /doiq fetchUserbyFid', user)
     if (user) {
@@ -193,7 +193,7 @@ app.frame('/doiq', async (c) => {
                   whiteSpace: 'pre-wrap',
                 }}
               >
-                {`Hi ${fakeData.username}, You've doiqed too hard.`}
+                {`Hi ${c.interactor?.username as string}, You've doiqed too hard.`}
               </div>
               <div
                 style={{
@@ -313,7 +313,7 @@ app.frame('/result', async (c) => {
     doiqAnswer
   }
   try {
-    let response = await UserService.fetchUserByFidFromFrontend(fakeData.fid)
+    let response = await UserService.fetchUserByFidFromFrontend(c.interactor?.fid.toString() as string)
     let user = response.user
     console.log('user found: /result ', user)
     if (user) {
@@ -398,9 +398,9 @@ app.frame('/result', async (c) => {
     } else {
       console.log('usr not found /results')
       const userData = {
-        username: fakeData.username,//c.var.interactor?.username
-        displayName: fakeData.displayName,//c.var.interactor?.displayName
-        fid: fakeData.fid, // c.var.interactor?.fid?.toString()
+        username: c.var.interactor?.username,//fakeData.username
+        displayName: c.var.interactor?.displayName,//fakeData.displayName
+        fid: c.var.interactor?.fid?.toString(), // fakeData.fid,
         doiqValue,
         doiqAnswer
       }
