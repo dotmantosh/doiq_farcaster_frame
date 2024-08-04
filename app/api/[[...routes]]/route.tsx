@@ -162,7 +162,7 @@ app.frame('/doiq', async (c) => {
         });
       } else {
         console.log('no user found from /doiq finduserbyfid')
-        const minutesLeft = (10 - moment().diff(lastUpdated, 'minutes')).toString();
+        const minutesLeft = (10 - moment().diff(lastUpdated)).toString();
         // console.log(minutesLeft)
         return c.res({
           action: '/',
@@ -379,7 +379,7 @@ app.frame('/result', async (c) => {
                 whiteSpace: 'pre-wrap',
               }}
             >
-              {`You can doiq again in about ${nextDoiqTime} minutes`}
+              {`You can doiq again in about ${nextDoiqTime}`}
             </div>
           </div>
         ),
