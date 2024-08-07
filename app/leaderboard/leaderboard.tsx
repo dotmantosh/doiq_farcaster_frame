@@ -42,8 +42,8 @@ function Leaderboard() {
           <tr>
             <th>Rank</th>
             <th>Username</th>
-            <th>Successful doiqs</th>
             <th>Unsuccessful doiqs</th>
+            <th>Successful doiqs</th>
           </tr>
         </thead>
         {
@@ -65,8 +65,8 @@ function Leaderboard() {
                     <tr key={index}>
                       <td>{index + 1}</td>
                       <td>{user.username}</td>
-                      <td>{doiqCorrectAnswerCount}</td>
                       <td>{incorrectAnswerCount}</td>
+                      <td>{doiqCorrectAnswerCount}</td>
                     </tr>
                   );
                 })
