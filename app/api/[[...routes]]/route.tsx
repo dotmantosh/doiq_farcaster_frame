@@ -15,7 +15,6 @@ import { UserDocument } from '@/models/user.schema'
 const apiKey = process.env.NEYNAR_API_KEY as string;
 const HOSTNAME = "https://doiq-farcaster-frame.vercel.app"
 // const HOSTNAME = "http://localhost:3000"
-// console.log(HOSTNAME)
 
 const answers = ["doiq", "doiq?", "doiq!"]
 const getRandomAnswer = () => {
@@ -31,12 +30,12 @@ const fakeData = {
 const app = new Frog({
   assetsPath: '/',
   basePath: '/api',
-  hub: neynarHub({ apiKey: "NEYNAR_FROG_FM" })
+  hub: neynarHub({ apiKey: apiKey })
   // hub: neynar({ apiKey })
 } as FrogConstructorParameters)
   .use(neynar(
     {
-      apiKey: "NEYNAR_FROG_FM",
+      apiKey: apiKey,
       features: ['interactor', 'cast'],
     }
   ))
@@ -89,7 +88,7 @@ app.frame('/', (c) => {
             whiteSpace: 'pre-wrap',
           }}
         >
-          click to doiq
+          {`click to doiq Apikey ${apiKey}`}
         </div>
       </div>
     ),
@@ -351,20 +350,9 @@ app.frame('/result', async (c) => {
             >
               {
                 doiqValue === doiqAnswer ?
-                  // <><p>Thanks for playing.</p>
-                  //   <p>Good choice {fakeData.username}</p>
-                  //   <p>You got it Correct! You chose {doiqValue}, and the current answer is {doiqAnswer}</p>
-                  //   <p>Your answer has been received by the great doiq himself.</p>
-                  // </>
                   `Thanks for playing. You got it correct, You chose ${doiqAnswer}. Your answer has been recieved by the great doiq himself`
                   :
                   `Thanks for playing. You got it wrong this time. You chose ${doiqValue}, but the answer is ${doiqAnswer}. Your answer has been recieved by the great doiq himself`
-                // <><p>Thanks for playing {fakeData.username}.</p>
-
-                //   <p>You got it Wrong this time. You chose {doiqValue}, but the current correct answer is {doiqAnswer}</p>
-                //   <p>Your answer has been received by the great doiq himself.</p>
-                // </>
-
               }
             </div>
             <div
@@ -401,9 +389,6 @@ app.frame('/result', async (c) => {
 
       let nextDoiqTime = "10 Minutes"
 
-
-      // console.log("lastUpdated: ", lastUpdated)
-      // console.log("next doiq time: ", nextDoiqTime)
       return c.res({
         image: (
           <div
@@ -438,20 +423,6 @@ app.frame('/result', async (c) => {
                   `Thanks for playing. You got it correct, You chose ${doiqAnswer}. Your answer has been recieved by the great doiq himself`
                   :
                   `Thanks for playing. You got it wrong this time. You chose ${doiqValue}, but the answer is ${doiqAnswer}. Your answer has been recieved by the great doiq himself`
-                // <><p>Thanks for playing.</p>
-                //   <p>Good choice {fakeData.username}</p>
-                //   <p>You got it Correct! You chose {doiqValue}, and the current answer is {doiqAnswer}</p>
-                //   <p>Your answer has been received by the great doiq himself.</p>
-                // </>
-
-
-                // :
-                // <><p>Thanks for playing {fakeData.username}.</p>
-
-                //   <p>You got it Wrong this time. You chose {doiqValue}, but the current correct answer is {doiqAnswer}</p>
-                //   <p>Your answer has been received by the great doiq himself.</p>
-                // </>
-
               }
 
             </div>

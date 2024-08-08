@@ -10,8 +10,9 @@ function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState<IUser[]>([])
   const [allDoiqCount, setAllDoiqCount] = useState(0)
   const [isFetchingLeaderboard, setIsFetchingLeaderboard] = useState(false)
+  // console.log(process.env.NEYNAR_API_KEY)
+  // console.log('Neynar apikey: ', process.env.NEYNAR_API_KEY)
   const handleFetchLeaderboard = async () => {
-    console.log('I got here')
     try {
       setIsFetchingLeaderboard(true)
       const resData = (await ApiClient.FetchUsers()).data
@@ -27,14 +28,16 @@ function Leaderboard() {
   }
   useEffect(() => {
     handleFetchLeaderboard()
+
   }, [])
   return (
     <div className={styles.leaderboard}>
-      <h1 className="my-2">doiq </h1>
+
+      <h1 className="my-2">doiq</h1>
       <p className="mb-2">The doiqers have doiqed {allDoiqCount} times in total</p>
       <p className="mb-2">doiq on warpcast</p>
 
-      <h2 className="mb-2">Leaderboard Updates in real time</h2>
+      <h2 className="mb-2">Leaderboard Updates in real time.</h2>
 
 
       <table>

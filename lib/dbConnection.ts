@@ -4,7 +4,7 @@ const connection: { isConnected?: number } = {};
 
 // const URI = process.env.MONGODB_URI_DEV
 const URI = process.env.MONGODB_URI
-console.log('uri from dbconnections: ', URI)
+// console.log('uri from dbconnections: ', URI)
 
 async function dbConnect() {
   if (connection.isConnected) {
@@ -12,11 +12,9 @@ async function dbConnect() {
     return;
   }
 
-
-
   if (!URI) {
     console.log('no database uri')
-    throw new Error('MONGODB_URI_DEV environment variable is not defined.');
+    throw new Error('MONGODB_URI_DEV environment variable is not defined.'); 
   }
 
   try {
