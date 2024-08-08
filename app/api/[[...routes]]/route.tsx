@@ -16,6 +16,7 @@ const apiKey = process.env.NEYNAR_API_KEY as string;
 const HOSTNAME = "https://doiq-farcaster-frame.vercel.app"
 // const HOSTNAME = "http://localhost:3000"
 
+
 const answers = ["doiq", "doiq?", "doiq!"]
 const getRandomAnswer = () => {
   return answers[Math.floor(Math.random() * answers.length)];
@@ -30,12 +31,12 @@ const fakeData = {
 const app = new Frog({
   assetsPath: '/',
   basePath: '/api',
-  hub: neynarHub({ apiKey: apiKey })
+  hub: neynarHub({ apiKey: "[D863CB1F-D048-4505-B91C-353EF952107D]" })
   // hub: neynar({ apiKey })
 } as FrogConstructorParameters)
   .use(neynar(
     {
-      apiKey: apiKey,
+      apiKey: "[D863CB1F-D048-4505-B91C-353EF952107D]",
       features: ['interactor', 'cast'],
     }
   ))
@@ -88,7 +89,7 @@ app.frame('/', (c) => {
             whiteSpace: 'pre-wrap',
           }}
         >
-          {`click to doiq Apikey ${apiKey}`}
+          click to doiq
         </div>
       </div>
     ),
