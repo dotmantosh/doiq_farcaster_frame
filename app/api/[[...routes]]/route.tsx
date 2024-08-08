@@ -8,35 +8,26 @@ import { serveStatic } from 'frog/serve-static'
 import { neynar } from 'frog/middlewares'
 import moment from 'moment'
 import { UserService } from '@/lib/services/user.service'
-import { IUser } from '@/interfaces/IUser'
-import { UserDocument } from '@/models/user.schema'
 
 
 const apiKey = process.env.NEYNAR_API_KEY as string;
 const HOSTNAME = "https://doiq-farcaster-frame.vercel.app"
 // const HOSTNAME = "http://localhost:3000"
 
-
 const answers = ["doiq", "doiq?", "doiq!"]
 const getRandomAnswer = () => {
   return answers[Math.floor(Math.random() * answers.length)];
 };
-const fakeData = {
-  fid: "12388",
-  username: "dotmantosh",
-  displayName: "dotmantosh",
-
-}
 
 const app = new Frog({
   assetsPath: '/',
   basePath: '/api',
-  hub: neynarHub({ apiKey: "D863CB1F-D048-4505-B91C-353EF952107D" })
+  hub: neynarHub({ apiKey })
   // hub: neynar({ apiKey })
 } as FrogConstructorParameters)
   .use(neynar(
     {
-      apiKey: "D863CB1F-D048-4505-B91C-353EF952107D",
+      apiKey,
       features: ['interactor', 'cast'],
     }
   ))
@@ -102,9 +93,44 @@ app.frame('/', (c) => {
 })
 
 app.frame('/doiq', async (c) => {
-  const { buttonValue, status } = c;
+  const { buttonValue, verified, status } = c;
   const fruit = buttonValue;
 
+  if (!verified) {
+    return c.res({
+      image: (
+        <div
+          style={{
+            alignItems: 'center',
+            background: 'white',
+            backgroundSize: '100% 100%',
+            display: 'flex',
+            flexDirection: 'column',
+            flexWrap: 'nowrap',
+            height: '100%',
+            justifyContent: 'center',
+            textAlign: 'center',
+            width: '100%',
+          }}
+        >
+          <div
+            style={{
+              color: 'black',
+              fontSize: 62,
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
+              lineHeight: 1,
+              marginTop: 30,
+              padding: '0 120px',
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            Error! Not verified.
+          </div>
+        </div>
+      ),
+    });
+  }
   let user = null;
   let isUpdatedMoreThan10Mins = false;
   let lastUpdated = null;
@@ -305,7 +331,44 @@ app.frame('/doiq', async (c) => {
 
 
 app.frame('/result', async (c) => {
-  const { buttonValue, status } = c
+  const { buttonValue, verified } = c
+
+  if (!verified) {
+    return c.res({
+      image: (
+        <div
+          style={{
+            alignItems: 'center',
+            background: 'white',
+            backgroundSize: '100% 100%',
+            display: 'flex',
+            flexDirection: 'column',
+            flexWrap: 'nowrap',
+            height: '100%',
+            justifyContent: 'center',
+            textAlign: 'center',
+            width: '100%',
+          }}
+        >
+          <div
+            style={{
+              color: 'black',
+              fontSize: 62,
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
+              lineHeight: 1,
+              marginTop: 30,
+              padding: '0 120px',
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            Error! Not verified.
+          </div>
+        </div>
+      ),
+    });
+  }
+
   const doiqValue = buttonValue
   const doiqAnswer = getRandomAnswer()
   const userData = {
